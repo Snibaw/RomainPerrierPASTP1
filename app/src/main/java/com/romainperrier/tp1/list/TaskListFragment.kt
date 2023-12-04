@@ -43,5 +43,10 @@ class TaskListFragment : Fragment() {
         }
 
         adapter.submitList(taskList)
+
+        adapter.onClickDelete = {
+            taskList = taskList.filter { task -> task.id != it.id }
+            adapter.submitList(taskList)
+        }
     }
 }

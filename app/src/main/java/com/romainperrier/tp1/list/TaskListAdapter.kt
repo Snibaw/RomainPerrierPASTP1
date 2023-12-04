@@ -11,6 +11,10 @@ import com.romainperrier.tp1.R
 
 class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskDiffCallback()) {
 
+    private var _binding: ItemTaskBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
     inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val taskTitleTextView: TextView = itemView.findViewById(R.id.task_title)
         private val taskDescriptionTextView: TextView = itemView.findViewById(R.id.task_description)
@@ -22,12 +26,15 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskDi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
-        return TaskViewHolder(itemView)
+        _binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return _binding.root
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.bind(getItem(position))
+        _binding?.deleteButton?.setOnClickListener {
+            onClickDelete(getItem(position))
+        }
     }
 
     private class TaskDiffCallback : DiffUtil.ItemCallback<Task>() {
@@ -39,4 +46,5 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskDi
             return oldItem == newItem
         }
     }
+    var onClickDelete: (Task) -> Unit = {}
 }
