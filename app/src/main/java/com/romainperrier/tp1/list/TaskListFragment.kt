@@ -14,11 +14,8 @@ import java.util.UUID
 
 class TaskListFragment : Fragment() {
     private val adapter = TaskListAdapter()
-    private var taskList = listOf(
-        Task(id = "id_1", title = "Task 1", description = "description 1"),
-        Task(id = "id_2", title = "Task 2"),
-        Task(id = "id_3", title = "Task 3")
-    )
+    private var taskList = emptyList<Task>()
+    private var counter = 0
     private var _binding: FragmentTaskListBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -37,8 +34,9 @@ class TaskListFragment : Fragment() {
         _binding?.taskList?.adapter = adapter
 
         _binding?.floatingActionButton?.setOnClickListener {
-            val newTask = Task(id = UUID.randomUUID().toString(), title = "New task")
+            val newTask = Task(id = "id_$counter", title = "Task $counter")
             taskList = taskList + newTask
+            counter++
             adapter.submitList(taskList)
         }
 

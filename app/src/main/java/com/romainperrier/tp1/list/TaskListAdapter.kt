@@ -8,33 +8,29 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.romainperrier.tp1.R
+import com.romainperrier.tp1.databinding.ItemTaskBinding
 
 class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskDiffCallback()) {
-
-    private var _binding: ItemTaskBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-    inner class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class TaskViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         private val taskTitleTextView: TextView = itemView.findViewById(R.id.task_title)
         private val taskDescriptionTextView: TextView = itemView.findViewById(R.id.task_description)
 
         fun bind(task: Task) {
             taskTitleTextView.text = task.title
             taskDescriptionTextView.text = task.description
+            binding?.taskDelete?.setOnClickListener {
+                onClickDelete(task)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
-        _binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return _binding.root
+        val binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return TaskViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.bind(getItem(position))
-        _binding?.deleteButton?.setOnClickListener {
-            onClickDelete(getItem(position))
-        }
     }
 
     private class TaskDiffCallback : DiffUtil.ItemCallback<Task>() {

@@ -20,12 +20,10 @@
         android:layout_height="wrap_content"
         android:background="@android:color/holo_blue_bright" />
 
-    <Button
+    <ImageButton
         android:id="@+id/task_delete"
-        android:layout_width="69dp"
-        android:layout_height="37dp"
-        android:layout_gravity="right"
-        android:text="Delete"
-        app:icon="@android:drawable/ic_menu_delete" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_delete" />
 
 </LinearLayout>
