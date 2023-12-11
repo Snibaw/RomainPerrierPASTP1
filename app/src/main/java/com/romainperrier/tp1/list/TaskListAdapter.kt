@@ -1,7 +1,6 @@
 package com.romainperrier.tp1.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.romainperrier.tp1.R
 import com.romainperrier.tp1.databinding.ItemTaskBinding
 
-class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskDiffCallback()) {
+class TaskListAdapter(val adapterListener: TaskListListener) : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskDiffCallback()) {
     inner class TaskViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         private val taskTitleTextView: TextView = itemView.findViewById(R.id.task_title)
         private val taskDescriptionTextView: TextView = itemView.findViewById(R.id.task_description)
@@ -19,7 +18,10 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskDi
             taskTitleTextView.text = task.title
             taskDescriptionTextView.text = task.description
             binding?.taskDelete?.setOnClickListener {
-                onClickDelete(task)
+                adapterListener.onClickDelete(task)
+            }
+            binding?.taskEdit?.setOnClickListener {
+                adapterListener.onClickEdit(task)
             }
         }
     }
@@ -42,5 +44,4 @@ class TaskListAdapter : ListAdapter<Task, TaskListAdapter.TaskViewHolder>(TaskDi
             return oldItem == newItem
         }
     }
-    var onClickDelete: (Task) -> Unit = {}
 }

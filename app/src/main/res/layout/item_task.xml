@@ -2,28 +2,41 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/task_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Task title"
-        android:background="@android:color/holo_blue_bright" />
+        android:background="@android:color/darker_gray"
+        tools:text="Task title" />
 
     <TextView
         android:id="@+id/task_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_bright" />
+        android:background="@android:color/darker_gray" />
 
-    <ImageButton
-        android:id="@+id/task_delete"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_delete" />
+        android:gravity="end"
+        >
+
+        <ImageButton
+            android:id="@+id/task_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+
+        <ImageButton
+            android:id="@+id/task_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
 
 </LinearLayout>

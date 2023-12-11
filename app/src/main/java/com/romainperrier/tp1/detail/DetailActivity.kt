@@ -36,7 +36,10 @@ class DetailActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Detail(onValidate = { task ->
+
+                    var task = (intent.getSerializableExtra("task") as Task?)?: Task(UUID.randomUUID().toString())
+
+                    Detail(initialTask= task, onValidate = { task ->
                         val intent = Intent().apply {
                             putExtra("task", task)
                         }
@@ -49,8 +52,8 @@ class DetailActivity : ComponentActivity() {
     }
 
     @Composable
-    fun Detail(modifier: Modifier = Modifier, onValidate: (Task) -> Unit) {
-        var task by remember { mutableStateOf(Task(id = UUID.randomUUID().toString())) }
+    fun Detail(modifier: Modifier = Modifier, initialTask: Task, onValidate: (Task) -> Unit) {
+        var task by remember { mutableStateOf(initialTask) }
 
         Column(
             modifier = modifier
@@ -86,13 +89,7 @@ class DetailActivity : ComponentActivity() {
     @Composable
     fun DetailPreview() {
         RomainPerrierPASTP1Theme {
-            Detail(onValidate = { task ->
-                val intent = Intent().apply {
-                    putExtra("task", task)
-                }
-                setResult(RESULT_OK, intent)
-                finish()
-            })
+            Detail(initialTask = Task(UUID.randomUUID().toString()), onValidate = {})
         }
     }
 }
