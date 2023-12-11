@@ -51,6 +51,12 @@ class TaskListFragment : Fragment() {
         }
     }
 
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("taskList", taskList as ArrayList<Task>)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +67,8 @@ class TaskListFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        taskList = savedInstanceState?.getSerializable("taskList") as? MutableList<Task> ?: mutableListOf()
 
         _binding?.taskList?.adapter = adapter
 
