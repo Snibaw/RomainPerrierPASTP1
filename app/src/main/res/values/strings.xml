@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RomainPerrierPASTP1</string>
     <string name="add_task">Add Task</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
