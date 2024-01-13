@@ -10,6 +10,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
@@ -20,25 +21,31 @@ import retrofit2.http.Path
 interface UserWebService {
     @GET("/sync/v9/user/")
     suspend fun fetchUser(): Response<User>
+
     @Multipart
     @POST("sync/v9/update_avatar")
     suspend fun updateAvatar(@Part avatar: MultipartBody.Part): Response<User>
+
     @PATCH("sync/v9/sync")
     suspend fun update(@Body user: UserUpdate): Response<Unit>
 }
+
 interface TasksWebService {
     @GET("/rest/v2/tasks/")
     suspend fun fetchTasks(): Response<List<Task>>
+
     @POST("/rest/v2/tasks/")
     suspend fun create(@Body task: Task): Response<Task>
 
     @POST("/rest/v2/tasks/{id}")
     suspend fun update(@Body task: Task, @Path("id") id: String = task.id): Response<Task>
 
-// Complétez avec les méthodes précédentes, la doc de l'API, et celle de Retrofit:
-    @GET("/rest/v2/tasks/{id}")
+    // Complétez avec les méthodes précédentes, la doc de l'API, et celle de Retrofit:
+// https://developer.todoist.com/rest/v1/#update-a-task
+    @DELETE("/rest/v2/tasks/{id}")
     suspend fun delete(@Path("id") id: String): Response<Unit>
 }
+
 object API {
     private const val TOKEN = "c3a4ae0776523a0e265691c40da8ea7e49f16911"
 
@@ -70,10 +77,10 @@ object API {
             .build()
     }
 
-    val userWebService : UserWebService by lazy {
+    val userWebService: UserWebService by lazy {
         retrofit.create(UserWebService::class.java)
     }
-    val taskWebService : TasksWebService by lazy {
+    val taskWebService: TasksWebService by lazy {
         retrofit.create(TasksWebService::class.java)
     }
 }
